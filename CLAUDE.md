@@ -19,7 +19,7 @@ Verification is manual in the browser.
 ## Architecture (`game.js`)
 
 - **Global mutable state** in top-level `let` vars (`board`, `current`, `next`, `score`, `lines`, `level`, `paused`, `gameOver`, `dropInterval`, `animId`, …). `init()` resets all of them; the restart button calls `init()`.
-- **Board**: `ROWS × COLS` matrix; cell = `0` (empty) or piece type index `1–7`. The same index keys into `PIECES` (shape matrices, cells hold the type index) and `COLORS` (index 0 is `null`).
+- **Board**: `ROWS × COLS` matrix; cell = `0` (empty) or piece type index `1–8` (7 standard tetrominoes + 8 = "tuerca", a 3×3 ring with an empty center). The same index keys into `PIECES` (shape matrices, cells hold the type index) and `COLORS` (index 0 is `null`).
 - **Piece**: `{ type, shape, x, y }`. Rotation = `rotateCW` (transpose + reverse) via `tryRotate`, which tries kicks `[0, -1, 1, -2, 2]` columns. `collide(shape, ox, oy)` is the single collision check used by movement, rotation, gravity, ghost and spawn.
 - **Piece lifecycle**: `lockPiece()` → `merge()` → `clearLines()` (updates score/lines/level/`dropInterval`) → `spawn()` (promotes `next`, rolls new `next`, calls `endGame()` if spawn collides, redraws preview).
 - **Loop**: `requestAnimationFrame(loop)` accumulates `dt` into `dropAccum`; gravity step when it exceeds `dropInterval`. `draw()` redraws everything each frame (grid → board → ghost at alpha 0.2 → current). Preview canvas only redraws in `drawNext()` on spawn.
