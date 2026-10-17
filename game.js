@@ -265,6 +265,7 @@ function loop(ts) {
       current.y++;
     } else {
       lockPiece();
+      if (gameOver) return;
     }
   }
   draw();
