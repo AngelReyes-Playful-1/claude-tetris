@@ -75,19 +75,30 @@ jobs:
                Quita con `gh issue edit --remove-label` los labels de este set que ya no apliquen y agrega
                los correctos con `gh issue edit --add-label`. No toques labels fuera de este set.
 
-            3. Escribe el diagnóstico en `/tmp/triage.md` con este formato exacto:
+            3. Escribe el diagnóstico en `/tmp/triage.md` en GitHub Flavored Markdown (GFM) válido:
+               - Sin sangría al inicio de las líneas (4+ espacios lo convierten en bloque de código).
+               - Línea en blanco antes y después de cada encabezado, lista, tabla y bloque de código.
+               - Código, archivos, funciones y labels entre backticks (`game.js`, `tryRotate()`, `bug`).
+               - Fragmentos de código en bloques con lenguaje: ```js ... ```.
+               - Referencias a archivos como enlaces: [`game.js:123`](https://github.com/${{ github.repository }}/blob/main/game.js#L123).
+               - Listas con `-`, pasos con `1.`, riesgos/casos a probar como checklist `- [ ]`.
+               - Usa **negritas** para destacar; no uses HTML salvo el marcador `<!-- claude-triage -->`.
+
+               Estructura exacta:
 
                <!-- claude-triage -->
                ## 🔍 Diagnóstico automático
-               ### Resumen
-               ### Tipo y prioridad (justificación)
-               ### Causa probable / análisis
-               ### Archivos y funciones implicados
-               (referencias tipo `game.js:123` y nombre de función)
-               ### Propuesta de solución
-               (pasos concretos numerados para implementarla)
-               ### Riesgos / casos a probar
-               ### Información faltante
+               ### 📝 Resumen
+               ### 🏷️ Tipo y prioridad
+               (tabla GFM: | Campo | Valor | Justificación | con filas Tipo, Área, Prioridad)
+               ### 🧠 Causa probable / análisis
+               ### 📂 Archivos y funciones implicados
+               (lista de enlaces tipo [`game.js:123`](https://github.com/${{ github.repository }}/blob/main/game.js#L123) — `nombreFuncion()`)
+               ### 🛠️ Propuesta de solución
+               (pasos concretos numerados; incluye snippet ```js si ayuda)
+               ### ⚠️ Riesgos / casos a probar
+               (checklist `- [ ]`)
+               ### ❓ Información faltante
                (o "Ninguna")
 
             4. Publica el diagnóstico:
