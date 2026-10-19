@@ -51,7 +51,34 @@
       <div class="overlay-box">
         <p id="overlay-title">GAME OVER</p>
         <p id="overlay-score"></p>
+        <div id="record-entry" class="record-entry hidden">
+          <p class="new-record">¡Nuevo récord!</p>
+          <div class="record-form">
+            <input id="record-name" type="text" maxlength="12" placeholder="Tu nombre" autocomplete="off" spellcheck="false" />
+            <button id="record-save" class="btn-secondary">Guardar</button>
+          </div>
+        </div>
+        <table id="gameover-records" class="records-table hidden">
+          <thead><tr><th>#</th><th>Nombre</th><th>Puntos</th><th>Líneas</th><th>Combo</th></tr></thead>
+          <tbody id="gameover-records-body"></tbody>
+        </table>
         <button id="restart-btn">Reiniciar</button>
+      </div>
+    </div>
+
+    <div id="start-screen" class="overlay start-screen hidden">
+      <div class="overlay-box">
+        <p class="start-title">RÉCORDS</p>
+        <table class="records-table">
+          <thead><tr><th>#</th><th>Nombre</th><th>Puntos</th><th>Líneas</th><th>Combo</th></tr></thead>
+          <tbody id="start-records-body"></tbody>
+        </table>
+        <div class="records-bests">
+          <span>Mejor combo: <strong id="best-combo">0</strong></span>
+          <span>Máx. líneas: <strong id="max-lines">0</strong></span>
+        </div>
+        <button id="play-btn" class="btn-primary">Jugar</button>
+        <button id="reset-records-btn" class="btn-link">Resetear récords</button>
       </div>
     </div>
   </div>
