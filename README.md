@@ -13,6 +13,7 @@ Implementación del clásico **Tetris** en JavaScript vanilla, usando HTML5 Canv
 - [Tetris](#tetris)
   - [Tabla de contenidos](#tabla-de-contenidos)
   - [Qué hace el proyecto](#qué-hace-el-proyecto)
+    - [Récords y combos](#récords-y-combos)
   - [Cómo ejecutar el juego](#cómo-ejecutar-el-juego)
     - [Opción 1: abrir el archivo directamente](#opción-1-abrir-el-archivo-directamente)
     - [Opción 2: servidor local (recomendado)](#opción-2-servidor-local-recomendado)
@@ -44,6 +45,13 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
 - **Modo oscuro / claro**: oscuro por defecto; el switch de la esquina superior derecha cambia el tema y la preferencia se guarda en `localStorage`.
+- **Tabla de récords local**: pantalla de inicio con el top 5 (nombre, puntos, líneas y mejor combo), el mejor combo y el máximo de líneas históricos. Si tu partida entra en el top 5, el Game Over muestra **¡Nuevo récord!** y un campo para escribir tu nombre (Guardar o `Enter`). El botón _Resetear récords_ borra todo (pide confirmación).
+
+### Récords y combos
+
+- Un **combo** cuenta las piezas consecutivas que, al fijarse, eliminan al menos una línea; se reinicia con la primera pieza que no limpia nada. Cada partida guarda su combo máximo.
+- Todo se guarda en `localStorage` bajo la clave `records` como `{ top: [{ name, score, lines, combo }], bestCombo, maxLines }`. `bestCombo` y `maxLines` son históricos: se conservan aunque la partida que los logró salga del top 5.
+- Los datos leídos se validan; si están corruptos se ignoran.
 
 ---
 
@@ -124,6 +132,8 @@ Contiene toda la lógica del juego. A grandes rasgos:
 ### Flujo del juego
 
 ```
+showStartScreen()                   → récords + botón "Jugar"
+  ↓ (Jugar)
 init()
   ├─ createBoard()                  → matriz vacía
   ├─ next = randomPiece()
@@ -139,7 +149,7 @@ init()
    keydown → mover / rotar / soft-drop / hard-drop / pausa
 ```
 
-Cuando una pieza recién generada ya colisiona al aparecer (`spawn`), se dispara `endGame()` y se muestra el overlay de **Game Over**.
+Cuando una pieza recién generada ya colisiona al aparecer (`spawn`), se dispara `endGame()` y se muestra el overlay de **Game Over**, que actualiza los récords y, si la puntuación entra en el top 5, pide el nombre del jugador.
 
 ---
 
