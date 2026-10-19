@@ -44,6 +44,7 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
 - **Modo oscuro / claro**: oscuro por defecto; el switch de la esquina superior derecha cambia el tema y la preferencia se guarda en `localStorage`.
+- **Skins visuales**: selector bajo el switch de tema con cuatro estilos de bloque (Retro, Neón, Pastel, Pixel art); la elección se guarda en `localStorage`.
 
 ---
 
@@ -176,9 +177,23 @@ Algunos parámetros fáciles de tunear en `game.js`:
 | `COLS`         | Columnas del tablero                     | `10`                  |
 | `ROWS`         | Filas del tablero                        | `20`                  |
 | `BLOCK`        | Tamaño en píxeles de cada celda          | `30`                  |
-| `COLORS`       | Paleta de colores por tipo de pieza      | 8 colores             |
+| `COLORS`       | Paleta de la skin Retro por tipo de pieza | 8 colores            |
+| `SKINS`        | Skins visuales (paleta, fondo, rejilla y dibujo de bloque) | `retro`, `neon`, `pastel`, `pixel` |
 | `LINE_SCORES`  | Puntos por 1, 2, 3 o 4 líneas eliminadas | `[0,100,300,500,800]` |
 | `dropInterval` | Velocidad inicial de caída en ms         | `1000`                |
+
+### Skins
+
+El selector **Skin** (debajo del switch de tema) cambia el estilo de los bloques al instante, incluso en pausa o tras el Game Over. La elección se guarda en `localStorage` (clave `skin`).
+
+| Skin      | Estilo                                                                 |
+| --------- | ---------------------------------------------------------------------- |
+| Retro     | El aspecto original: bloque plano con brillo superior (por defecto).   |
+| Neón      | Tablero negro, colores saturados y resplandor (`shadowBlur`).          |
+| Pastel    | Colores suaves y esquinas redondeadas (`roundRect`, con `arcTo` de respaldo). |
+| Pixel art | Textura en damero y bisel claro/oscuro estilo 8 bits.                  |
+
+Para añadir una skin, agrega una entrada a `SKINS` en `game.js` con `label`, `colors` (índices 1–8), `bg` (`null` = fondo del tema), `grid` (`null` = rejilla del tema) y una función `draw(context, px, py, color, size)`, y su `<option>` en `#skin-select` de `index.html`.
 
 > Si cambias `COLS`, `ROWS` o `BLOCK`, recuerda ajustar también `width` y `height` del `<canvas id="board">` en `index.html` para que coincida (`COLS × BLOCK` × `ROWS × BLOCK`).
 
